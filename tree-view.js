@@ -95,6 +95,8 @@ Tree.prototype.Expand = function (node)
 	{
 		var nodes = this.CurrentDrawFunction(item[this.Settings.childrenCollectionName]);
 		var div = document.createElement("DIV");
+		//Нужно сделать в зависимости от типа коллекция
+		div.ParentDataContent = node.DataContext;
 		if (this._hideNewNode == true)
 		{
 			div.style.visibility = "hidden";
@@ -246,6 +248,31 @@ Tree.prototype.UnselectAll = function()
 		var oldNode = this.SelectNodes.pop();
 		oldNode.className = "";
 	}
+}
+
+//Удаляет указанный узел
+//node - узел который необходимио удалить
+Tree.prototype.Delete = function(node)
+{
+	var collection = null;
+	if (node.parentNode.ParentDataContent != null)
+	{
+		collection = node.parentNode.ParentDataContent[this.Settings.childrenCollectionName];
+	}
+	else
+	{
+		collection = this.Data;
+	}
+	var item = node.DataContext;
+	for (var i = 0; i < collection.length; i++)
+	{
+		if(collection[i] == item)
+		{
+			collection.splice(i, 1);
+			break;
+		}
+	}
+	node.parentNode.removeChild(node);
 }
 
 //Старт редактирования указанного узла
