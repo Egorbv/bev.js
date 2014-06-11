@@ -1,0 +1,107 @@
+﻿<!doctype html>
+<html>
+<head>
+
+	<script type="text/javascript" src="Underscore.js" ></script>
+	<link rel="stylesheet" href="tree-view.css">
+	<script language="javascript" type="text/javascript" src="tree-view.js"></script>
+</heaD>
+<body>
+	<style>
+
+
+
+
+
+		.tree-view-icon-1 {
+			background: url(icon3.png) 0px 0px repeat-x;
+			background-position-y: center;
+		}
+
+		.tree-view-icon-2 {
+			background: url(icon3.png) 11px 0px repeat-x;
+			background-position-y: center;
+		}
+
+
+		.tab-panel-item {
+			-webkit-border-top-left-radius: 10px;
+			-webkit-border-top-right-radius: 10px;
+			-moz-border-radius-topleft: 10px;
+			-moz-border-radius-topright: 10px;
+			border-top-left-radius: 10px;
+			border-top-right-radius: 10px;
+			border-color:red;
+			background-color:gray;
+			border:1px solid red;
+			padding:10px;
+			min-width:50px;
+			display:inline-block;
+			text-align:center;
+			margin-left:-5px;			
+		}
+
+	</style>
+	<img src="icon3.png"/>
+	<input type="button" value="eeeee" onclick="Test()" />
+
+	<div id="tree" class="tree-view" style="width:400px;height:800px;overflow:scroll;">
+
+	</div>
+	<div class="class1 class2">
+		<span class="tab-panel-item" style="z-index:100">Egor</span><span class="tab-panel-item" style="z-index:-1">Egor</span>
+	</div>
+
+<script>
+
+	var dd = document.getElementsByClassName("class2");
+
+	var item = { Name: "egor" };
+	var name = "Name";
+
+
+
+
+
+
+
+
+
+	var nodes = new Array();
+	for (var i = 0; i < 100; i++)
+	{
+		var node1 = { Name: "Node - node node node node ndo node ndoe dneo dnoe" + i };
+		node1.children = new Array();
+		for (var j = 0; j < 10; j++)
+		{
+			var node2 = { Name: "Scond node - " + j };
+			node2.children = new Array();
+			node1.children.push(node2);
+		}
+		nodes.push(node1);
+	}
+	nodes[3].Name = "werkje weropweirpo weorfi pwer w erfoiew weroi wpore powei poweri oweir poweir pwe ipower poew roiew";
+	//alert(5);
+	var settings = { type: "Type1", childrenCollectionName: "children", displayName: "Name", iconName: "Type", showTitle: true, selectType: "ctrl" }
+	var tree = new Tree("tree", settings, nodes);
+	tree.Draw();
+
+	var i = 0;
+	function Test()
+	{
+		if (i == 0)
+		{
+			tree.StartEditNode(tree.SelectNodes[0]);
+			i = 1;
+		}
+		else
+		{
+			tree.CancelEdit();
+			i = 0;
+		}
+	}
+
+</script>
+
+</body>
+</html>
