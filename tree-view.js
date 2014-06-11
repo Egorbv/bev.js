@@ -49,6 +49,8 @@ Tree.prototype.Draw = function ()
 	}
 	div.style.display = "inline-table";
 	this.Container.appendChild(div);
+	this.Container.focus();
+
 }
 
 //Обработчик клика на узле
@@ -223,6 +225,7 @@ Tree.prototype.SelectNode = function (node)
 
 	node.className = "tree-view-node-selected";
 	this.SelectNodes.push(node);
+	node.focus();
 }
 
 //Выделить все узлы в дереве
