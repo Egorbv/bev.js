@@ -89,16 +89,8 @@
 	var i = 0;
 	function Test()
 	{
-		if (i == 0)
-		{
-			tree.StartEdit(tree.SelectNodes[0]);
-			i = 1;
-		}
-		else
-		{
-			tree.CommitEdit();
-			i = 0;
-		}
+
+		tree.Delete(tree.SelectNodes[0]);
 	}
 
 </script>
