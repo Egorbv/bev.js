@@ -1,0 +1,106 @@
+﻿/*Css класс для основного контейнера дерева */
+.tree-view
+{
+
+}
+
+/*Css класс для элементов управления схлопывания \ раскрытия узлов дерева.
+В данном элементе рисуются либо (плюс\минус), либо стрелки (вбок \ вниз)*/
+.tree-view b 
+{
+	width: 6px;
+	height: 100%;
+	display: table-cell;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+	margin-right: 4px;
+	font-weight: normal;
+	font-style: normal;
+}
+
+/*Css класс для иконки узла. В данном элементе рисуется иконка узла.*/
+.tree-view s 
+{
+	text-decoration: none;
+	height: 100%;
+	width: 11px;
+	display: table-cell;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+	margin-right: 5px;
+	font-weight: normal;
+	font-style: normal;
+}
+
+/*Css класс для всего узла дерева. В нем задаются свойста текста и шрифта*/
+.tree-view i 
+{
+	font-style: normal;
+	display: inline-table;
+	width: 100%;
+	margin: 0px;
+	border: 0px;
+	font-size: 28pt;
+	cursor:default;
+	white-space:nowrap;
+	padding-right:6px; /*нужно делать отступ на ширину иконки + значка раскрытия узла*/
+}
+
+/*Css класс для всего узла при наведении на него мыши. В частности фон узла под мышью.*/
+.tree-view i:hover 
+{
+	background-color: lightblue;
+}
+
+/*Css класс для выделенного узла. В частности фон выделенного узла.*/
+.tree-view-node-selected
+{
+	background-color:yellow;
+}
+
+/*Css класс для узла имеющего потомков но нохадящимся в схлопнутом состоянии.
+В частности отвечает за отрисовку иконки символизирующей схлопнутый узел которая
+позволяет его раскрыть.*/
+.tree-view-collapsed 
+{
+	background: url(icon3.png) -18px 0px repeat-x;
+	background-position-y: center;
+	cursor:default;
+}
+
+/*Css класс для узла имеющего потомков но нохадящимся в схлопнутом состоянии при наведенной на него мыши.
+В частности отвечает за отрисовку иконки символизирующей схлопнутый узел которая
+позволяет его раскрыть.*/
+.tree-view-collapsed:hover
+{
+	background: url(icon3.png) -6px 0px repeat-x;
+	background-position-y: center;
+}
+
+/*Css класс для узла имеющего потомков но нохадящимся в раскрытом состоянии.
+В частности отвечает за отрисовку иконки символизирующей раскрытый узел которая
+позволяет его схлопнуть.*/
+.tree-view-expanded 
+{
+	background: url(icon3.png) -12px 0px repeat-x;
+	background-position-y: center;
+	cursor: default;
+}
+
+/*Css класс для узла имеющего потомков но нохадящимся в раскрытом состоянии при наведенной на него мыши.
+В частности отвечает за отрисовку иконки символизирующей раскрытый узел которая
+позволяет его схлопнуть.*/
+.tree-view-expanded:hover 
+{
+	background: url(icon3.png) 0px 0px repeat-x;
+	background-position-y: center;
+}
+
+/*Css класс для контейнера содержащего список дочерних узлов по отношению к родительскому.
+В частности описывает отступ дочерних узлов по отношению к родительскому.*/
+.tree-view div 
+{
+	padding-left:20px;
+}
