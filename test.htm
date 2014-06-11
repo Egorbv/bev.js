@@ -91,12 +91,12 @@
 	{
 		if (i == 0)
 		{
-			tree.StartEditNode(tree.SelectNodes[0]);
+			tree.StartEdit(tree.SelectNodes[0]);
 			i = 1;
 		}
 		else
 		{
-			tree.CancelEdit();
+			tree.CommitEdit();
 			i = 0;
 		}
 	}

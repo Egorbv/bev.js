@@ -248,11 +248,10 @@ Tree.prototype.UnselectAll = function()
 	}
 }
 
-
-Tree.prototype.StartEditNode = function(node)
+//Старт редактирования указанного узла
+Tree.prototype.StartEdit = function(node)
 {
-
-	var text = node.innerText;
+	var text = node.childNodes[node.childNodes.length-1].nodeValue;
 	var innerHTML = node.innerHTML;
 	var input = document.createElement("input");
 	
@@ -264,6 +263,12 @@ Tree.prototype.StartEditNode = function(node)
 	input.style.border = "1px solid black";
 	input.style.position = "absolute";
 	input.style.top = "0px"
+
+	var instance = this;
+	input.onblur = function () { instance.CommitEdit(); };
+
+	input.className = "tree-view-edit";
+
 	var width = node.offsetWidth - 2;
 	var left = 0;
 	for (var i = 0; i < node.children.length; i++)
@@ -283,6 +288,7 @@ Tree.prototype.StartEditNode = function(node)
 	node.appendChild(input);
 
 	this.CurrentEditNode = node;
+	input.focus();
 }
 
 //Отмена редактирования текущего узла
@@ -291,6 +297,23 @@ Tree.prototype.CancelEdit = function()
 	if(this.CurrentEditNode != null)
 	{
 		this.CurrentEditNode.removeChild(this.CurrentEditNode.children[this.CurrentEditNode.children.length - 1]);
+		this.CurrentEditNode = null;
+	}
+}
+
+//Фиксирование измений в названии узла после редактирования
+Tree.prototype.CommitEdit = function()
+{
+	if(this.CurrentEditNode != null)
+	{
+		var input = this.CurrentEditNode.children[this.CurrentEditNode.children.length - 1];
+		var text = input.value;
+		this.CurrentEditNode.removeChild(input);
+
+		var textNode = this.CurrentEditNode.childNodes[this.CurrentEditNode.childNodes.length - 1];
+		textNode.nodeValue = text;
+		this.CurrentEditNode.DataContext[this.Settings.displayName] = text;
+		this.CurrentEditNode = null;
 	}
 }
 
