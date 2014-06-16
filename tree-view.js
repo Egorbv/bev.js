@@ -16,6 +16,7 @@
 	}
 
 	//this.Container.ondblclick = function () { alert(event.toElement.tagName) };
+	//обработку клавиатуры нужнно вставлять input и его вводить в фокус
 }
 
 //Если в настройках дерева выставлен флаг showTitle = true,
@@ -225,6 +226,7 @@ Tree.prototype.SelectNode = function (node)
 
 	node.className = "tree-view-node-selected";
 	this.SelectNodes.push(node);
+	this.Container.focus();
 	node.focus();
 }
 
