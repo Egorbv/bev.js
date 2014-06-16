@@ -4,6 +4,7 @@
 
 	<script type="text/javascript" src="Underscore.js" ></script>
 	<link rel="stylesheet" href="tree-view.css">
+	<link rel="stylesheet" href="popup.css">
 	<script language="javascript" type="text/javascript" src="kernel.js"></script>
 	<script language="javascript" type="text/javascript" src="popup.js"></script>
 	<script language="javascript" type="text/javascript" src="tree-view.js"></script>
@@ -120,9 +121,9 @@
 	<img src="icon3.png"/>
 	<input type="button" value="eeeee" onclick="Test()" />
 
-	<div class="combo-box"></div>
+	<div style="width:0px;float:left">wwwwww</div><div style="display:inline-block" class="combo-box"></div>
 
-	<div id="tree" class="tree-view" onkeypress="DDDD()" onkeydown="DDDD()" onkeyup="DDDD()" style="width:400px;height:800px;overflow:scroll;">
+	<div id="tree" class="tree-view" style="width:400px;height:800px;overflow:scroll;">
 
 	</div>
 	<div class="class1 class2">
@@ -130,15 +131,6 @@
 	</div>
 
 <script>
-
-	function DDDD()
-	{
-		debugger;
-		alert(4);
-	}
-
-
-	debugger;
 
 	var combobox = new Combobox();
 

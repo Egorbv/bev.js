@@ -1,0 +1,8 @@
+﻿/*Основной стиль для выпадающей панели*/
+.popup
+{
+	position:absolute;
+	background-color:lightgray;
+	overflow:auto;
+	border :1px solid red;
+}

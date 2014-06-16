@@ -1,6 +1,10 @@
 ﻿function Combobox()
 {
 	var cb = document.getElementsByClassName("combo-box")[0];
+
+	//Ссылка на элемент контейнер для выпадающего списка
+	this.Root = cb;
+
 	var button = document.createElement("span");
 	this.Content = document.createElement("span");
 	var icon = document.createElement("span");
@@ -48,5 +52,9 @@
 
 Combobox.prototype.ShowDropDown=function()
 {
-	
+	if(this.DropDownContent == null)
+	{
+		this.DropDownContent = new Popup({ element : this.Root});
+	}
+	this.DropDownContent.Show();
 }
