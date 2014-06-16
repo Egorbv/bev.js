@@ -1,0 +1,77 @@
+﻿/*Основной класс для контейнера выпадающего списка*/
+/*Также изначально скрывает на странице элемент Select*/
+.combo-box {
+	width: 200px;
+	height: 30px;
+	border: 1px solid gray;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	position:relative;
+	overflow:hidden;
+    visibility : hidden;
+    display:inline-block;
+}
+
+/*Класс для кнопки (слева или справа) с иконкой сомволизирующей открытие выпадающего списка*/
+.combo-box-button {
+	position: absolute;
+	top: 0px;
+	height: 100%;
+	width: 30px;
+	background-color: lightgray;
+	border-right: 1px solid gray;
+    border-left:1px solid gray;
+	text-align:center;
+	vertical-align:middle;
+	display:table-cell;
+}
+/*Класс для кнопки (слева или справа) с иконкой при наведении на нее мыши сомволизирующей открытие выпадающего списка*/
+.combo-box-button:hover {
+	position: absolute;
+	top: 0px;
+	height: 100%;
+	width: 30px;
+	background-color: gray;
+	border-right: 1px solid gray;
+	text-align: center;
+	vertical-align: middle;
+	display: table-cell;
+}
+
+/*Класс для иконки в кнопке сомволизирующей открытие выпадающего списка*/
+.combo-box-button-icon {
+	position:absolute;
+	width:8px;
+	height:6px;
+	background: url(icon3.png) -25px -4px;
+	background-repeat: no-repeat;
+	font-size:0px;
+	display:inline-block;
+	margin:0px;
+	padding:0px;
+}
+
+/*Класс для иконки в кнопке при наведении на нее мыши сомволизирующей открытие выпадающего списка*/
+.combo-box-button-icon-hover {
+	position: absolute;
+	width: 8px;
+	height: 6px;
+	background: url(icon3.png) -34px -4px;
+	background-repeat: no-repeat;
+	font-size: 0px;
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+}
+
+/*Класс для отображения выбранного элемента (ов) в выпадающем списке*/
+.combo-box-content {
+	position : absolute;
+	top:0px;
+	height:100%;
+	background-color: lightcyan;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}

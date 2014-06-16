@@ -6,3 +6,17 @@
 	overflow:auto;
 	border :1px solid red;
 }
+
+.combo-box-item
+{
+     cursor : default;
+}
+
+.combo-box-selected-item
+{
+    background-color : blue;
+}
+.combo-box-item:hover
+{
+    background-color : lightblue;
+}

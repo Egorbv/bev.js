@@ -1,6 +1,9 @@
 ﻿function Bev()
 {
-	this.IsRTL = true;
+    this.IsRTL = true;
+
+    this.DropDownContentMinHeight = 100;
+    this.DropDownContentMaxHeight = 200;
 }
 
 Bev.prototype.AttachEvent = function(domElement, ev, handler)
@@ -43,4 +46,9 @@ Bev.prototype.GetTopCorner = function (element)
 	return { x: left, y: top };
 }
 
+//Отображение сообщения об ошибке
+Bev.prototype.ShowError = function(str)
+{
+	alert(str);
+}
 var bev = new Bev();

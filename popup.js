@@ -3,7 +3,21 @@
 	//список текущих настроек
 	this.Setting = setting;
 	var instance = this;
-	this._bodyClick = function () { instance.BodyClick(); };
+	
+	if (setting.minHeight == null)
+	{
+		bev.ShowError("Popup control - не задана минивальная высота всплываюшей панели");
+	}
+	if (setting.maxHeight == null)
+	{
+		bev.ShowError("Popup control - не задана максимальная высота всплываюшей панели");
+	}
+	if (setting.content == null)
+	{
+		bev.ShowError("Popup control - не задано содержимое всплывающей панели");
+	}
+
+	this._bodyClick = function () { instance.Hide(); };
 }
 
 
@@ -17,9 +31,12 @@ Popup.prototype.Show=function()
 		this.Panel = document.createElement("div");
 		this.Panel.className = "popup";
 		this.Panel.style.width = width + "px";
-		this.Panel.style.height = "200px";
+		this.Panel.style.minHeight = this.Setting.minHeight + "px";
+		this.Panel.style.maxHeight = this.Setting.maxHeight + "px";
 		this.Panel.visibility = "hidden";
+		this.Panel.style.overflow = "auto";
 		this.Panel.onmousedown = function () { instance.PanelClick() };
+		this.Panel.appendChild(this.Setting.content);
 	}
 	bev.AttachEvent(document, "mousedown", this._bodyClick);
 	document.body.appendChild(this.Panel);
@@ -71,7 +88,8 @@ Popup.prototype.Show=function()
 }
 
 //Обработка клика вне нажатия всплывающей панели
-Popup.prototype.BodyClick = function ()
+//Сокрытие всплывающей панели с экрана
+Popup.prototype.Hide = function ()
 {
 	bev.DettachEvent(document, "mousedown", this._bodyClick);
 	document.body.removeChild(this.Panel);
@@ -80,5 +98,10 @@ Popup.prototype.BodyClick = function ()
 //Обработчик клика в сплывающей панели
 Popup.prototype.PanelClick = function ()
 {
-	alert("panel click");
+	if (this.Setting.previewClickContent != null)
+	{
+		this.Setting.previewClickContent(this, event.srcElement);
+	}
+	event.cancelBubble = true;
+	return false;
 }

@@ -4,7 +4,8 @@
 
 	<script type="text/javascript" src="Underscore.js" ></script>
 	<link rel="stylesheet" href="tree-view.css">
-	<link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="combo-box.css">
+   	<link rel="stylesheet" href="popup.css">
 	<script language="javascript" type="text/javascript" src="kernel.js"></script>
 	<script language="javascript" type="text/javascript" src="popup.js"></script>
 	<script language="javascript" type="text/javascript" src="tree-view.js"></script>
@@ -44,80 +45,16 @@
 		}
 
 
-		.combo-box {
-			width: 200px;
-			height: 30px;
-			border: 1px solid gray;
-			-webkit-border-radius: 5px;
-			-moz-border-radius: 5px;
-			border-radius: 5px;
-			position:relative;
-			overflow:hidden;
-		}
-
-
-		.combo-box-button {
-			position: absolute;
-			top: 0px;
-			height: 100%;
-			width: 30px;
-			background-color: lightgray;
-			border-right: 1px solid gray;
-			text-align:center;
-			vertical-align:middle;
-			display:table-cell;
-		}
-
-		.combo-box-button:hover {
-			position: absolute;
-			top: 0px;
-			height: 100%;
-			width: 30px;
-			background-color: gray;
-			border-right: 1px solid gray;
-			text-align: center;
-			vertical-align: middle;
-			display: table-cell;
-		}
-
-		.combo-box-button-icon {
-			position:absolute;
-			width:8px;
-			height:6px;
-			background: url(icon3.png) -25px -4px;
-			background-repeat: no-repeat;
-			font-size:0px;
-			display:inline-block;
-			margin:0px;
-			padding:0px;
-		}
-
-		.combo-box-button-icon-hover {
-			position: absolute;
-			width: 8px;
-			height: 6px;
-			background: url(icon3.png) -34px -4px;
-			background-repeat: no-repeat;
-			font-size: 0px;
-			display: inline-block;
-			margin: 0px;
-			padding: 0px;
-		}
-
-
-		.combo-box-content {
-			position : absolute;
-			top:0px;
-			height:100%;
-			background-color: lightcyan;
-			display: table-cell;
-			vertical-align: middle;
-			text-align: center;
-		}
 
 	</style>
 	</head>
 <body>
+    <select style="height:50px;font-size:20pt;" size="4">
+        <option>ddddd</option>
+        <option>ddddd</option>
+        <option>ddddd</option>
+        <option>ddddd</option>
+    </select>
 	<img src="icon3.png"/>
 	<input type="button" value="eeeee" onclick="Test()" />
 
@@ -132,7 +69,25 @@
 
 <script>
 
-	var combobox = new Combobox();
+    function CreateItem(item)
+    {
+        //alert(4);
+    }
+
+    var items = new Array();
+    items.push({Name : "1234567"});
+    items.push({Name : "2222222"});
+    items.push({Name : "1111111"});
+    items.push({Name : "3333333"});
+    items.push({Name : "1111111"});
+    items.push({Name : "4444444"});
+    items.push({ Name: "1234567" });
+    items.push({ Name: "2222222" });
+    items.push({ Name: "1111111" });
+    items.push({ Name: "3333333" });
+    items.push({ Name: "1111111" });
+    items.push({ Name: "4444444" });
+    var combobox = new Combobox({ items: items,  template : "combo-box-item" });
 
 
 
@@ -165,6 +120,8 @@
 	}
 
 </script>
-
+<script type="template" id="combo-box-item">
+<div><img src=""/>{Name}-{Name}</div>
+</script>
 </body>
 </html>
