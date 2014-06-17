@@ -1,98 +1,102 @@
-﻿function Combobox(setting)
+﻿function Combobox(id , setting)
 {
 	//основные проверки на правильность настроек инициализации компонента
-	if (setting == null)
+	if (setting != null)
 	{
-		bev.ShowError("Combobox control - не переданы настройка выпадающего списка");
-		return;
-	}
-
-	if (setting.onLoadData != null || setting.items != null)
-	{
-		if(setting.valueFieldName == null || setting.displayFieldName == null)
+		if(setting.dataSource != null)
+		{
+			if (!(setting.dataSource instanceof Array))
+			{
+				bev.ShowError("Combobox control - в поле настроек 'dataSource' должен быть массив эллементов");
+				return;
+			}
+		}
+		else if (setting.dataSourceFunction == null)
+		{
+			bev.ShowError("Combobox control - в настройках должен быть передан массив элементов в поле -dataSource или ссылка на функцию получения данных - поле dataSourceFunction");
+			return;
+		}
+		if (setting.dataTextField == null || setting.dataValueField == null)
 		{
 			bev.ShowError("Combobox control - должны быть указаны названия полей для значения и отображения в источнике данных")
 			return;
 		}
 	}
+	else
+	{
+		//create from select
+	}
 
-
+	this.OriginalSelect = document.getElementById(id);
 	this.Setting = setting;
-	var cb = document.getElementsByClassName("combo-box")[0];
-	var container = document.createElement("div");
-	cb.parentNode.insertBefore(container, cb);
-	cb = container;
-	container.className = "combo-box";
-	container.style.visibility = "visible";
-
 	//Ссылка на элемент контейнер для выпадающего списка
-	this.Root = cb;
+	this.Combobox = document.createElement("span");
+	this.Combobox.className = "combo-box";
+	this.Combobox.innerHTML = "&nbsp;";
+
+	this.OriginalSelect.parentNode.insertBefore(this.Combobox, this.OriginalSelect);
+	//this.OriginalSelect.style.display = "none";
 
 	var button = document.createElement("span");
 	this.Content = document.createElement("span");
 	var icon = document.createElement("span");
 	icon.className = "combo-box-button-icon";
 	icon.innerHTML = "select";
-	icon.style.visibility = "hidden";
 	button.appendChild(icon);
 	button.onmouseover = function () { icon.className = "combo-box-button-icon-hover" };
 	button.onmouseout = function () { icon.className = "combo-box-button-icon"; }
 	button.onclick = function () { instance.BeginShowDropDown(); };
 	button.className = "combo-box-button"
+
 	var instance = this;
 
 
 	this.Content.className = "combo-box-content";
 
+	var styles = document.defaultView.getComputedStyle(this.Combobox);
 	if (bev.IsRTL == true)
 	{
 		button.style.left = "0px";
 		this.Content.style.right = "0px";
 		button.style.borderLeftWidth = "0px";
+		button.style.borderBottomLeftRadius = styles.borderBottomLeftRadius;
+		button.style.borderTopLeftRadius = styles.borderTopLeftRadius;
+		this.Content.style.borderBottomRightRadius = styles.borderBottomRightRadius;
+		this.Content.style.borderTopRightRadius = styles.borderTopRightRadius;
 	}
 	else
 	{
 		button.style.right = "0px";
 		button.style.borderRightWidth = "0px";
 		this.Content.style.left = "0px";
+		button.style.borderBottomRightRadius = styles.borderBottomRightRadius;
+		button.style.borderTopRightRadius = styles.borderTopRightRadius;
+		this.Content.style.borderBottomLeftRadius = styles.borderBottomLeftRadius;
+		this.Content.style.borderTopLeftRadius = styles.borderTopLeftRadius;
 	}
-	cb.appendChild(button);
+	this.Combobox.appendChild(button);
 	icon.style.top = parseInt((button.clientHeight - icon.offsetHeight) / 2) + "px";
 	icon.style.left = parseInt((button.clientWidth - icon.offsetWidth) / 2) + "px";
-	icon.style.visibility = "visible";
 
-	this.Content.style.width = cb.clientWidth - button.offsetWidth + "px";
-	this.Content.style.height = cb.clientHeight + "px";
-	cb.appendChild(this.Content);
-
-	var span = document.createElement("span");
-	span.innerHTML = "5";
-	this.Content.appendChild(span);
-
-	var paddingTop = parseInt((this.Content.clientHeight - span.offsetHeight) / 2);
-	this.Content.style.paddingTop = paddingTop + "px";
-	this.Content.removeChild(span);
-
+	this.Content.style.width = this.Combobox.clientWidth - button.offsetWidth + "px";
+	this.Content.innerHTML = "ddddW";
+	this.Combobox.appendChild(this.Content);
 
 	this._onClickContentHandler = function () { instance.OnClickContent(); };
-
+	this.Combobox.style.visibility = "visible";
 }
 
 Combobox.prototype.BeginShowDropDown=function()
 {
 	var setting = this.Setting;
-	if(setting.items == null && setting.onLoadData == null)
-	{
-		bev.ShowError("Combobox - не указаны данные или функция получения данных");
-	}
-	if(setting.onLoadData)
+	if(setting.dataSourceFunction)
 	{
 		var instance = this;
-		setting.onLoadData({ control: this, callback: function(){ instance.EndShowDropDown();} });
+		setting.dataSourceFunction({ control: this, callback: function (data) { instance.EndShowDropDown(data); } });
 	}
 	else
 	{
-		this.EndShowDropDown(setting.items)
+		this.EndShowDropDown(setting.dataSource)
 	}
 }
 
@@ -104,15 +108,14 @@ Combobox.prototype.EndShowDropDown = function(data)
 	//Если всплывающая панель еще не создана - создаем ее
 	if (this.DropDownContent == null) {
 		var content = document.createElement("div");
-		if (bev.IsRTL == true) {
+		if (bev.IsRTL == true)
+		{
 			content.style.direction = "rtl";
 			//change size event
 			//content.onmscontentzoom
 		}
-		if (setting.displayName != null) {
-			this.Render1(content, data);
-		}
-		else if(setting.onLoadItem != null)
+
+		if (setting.onLoadItem != null)
 		{
 			this.Render2(content, data);
 		}
@@ -120,9 +123,13 @@ Combobox.prototype.EndShowDropDown = function(data)
 		{
 			this.Render3(content, data);
 		}
+		else
+		{
+			this.Render1(content, data);
+		}
 		this.DropDownContent = new Popup(
 		{
-			element: this.Root,
+			element: this.Combobox,
 			minHeight: bev.DropDownContentMinHeight,
 			maxHeight: bev.DropDownContentMaxHeight,
 			content: content,
@@ -131,35 +138,19 @@ Combobox.prototype.EndShowDropDown = function(data)
 	this.DropDownContent.Show();
 }
 
-//Получаем элемент списка выбранного кликом по нему мыши
-Combobox.prototype.GetClickedItem = function(obj)
-{
-	while(1==1)
-	{
-		for (var i = 0; i < obj.classList.length; i++)
-		{
-			if(obj.classList.item(i) == "combo-box-item")
-			{
-				return obj;
-			}
-		}
-		obj = obj.parentNode;
-	}
-}
-
 //Обработчик клика по элементу списка
 Combobox.prototype.OnClickContent = function()
 {
 	//Нужно зделать обработку мульти выбора
 	var e = event;
-	var item = this.GetClickedItem(e.srcElement);
+	var item = e.currentTarget;
 	item.classList.add("combo-box-selected-item");
 	var item = item.DataContext;
 	this.DropDownContent.Hide();
 }
 
 //Создание списка элементов на основе коллекции элементов
-//переденнах в списке настроек выпадающего списка (setting.items )
+//items - массив элементо выпадающего списка
 Combobox.prototype.Render1 = function (content, items)
 {
 	var setting = this.Setting;
@@ -167,7 +158,7 @@ Combobox.prototype.Render1 = function (content, items)
 	{
 		var item = document.createElement("div");
 		item.className = "combo-box-item";
-		item.innerText = items[i][setting.displayName];
+		item.innerHTML = "<div>" + items[i][setting.dataTextField] + "</div>";
 		item.onclick = this._onClickContentHandler;
 		item.DataContext = items[i];
 		content.appendChild(item);
@@ -179,6 +170,7 @@ Combobox.prototype.Render1 = function (content, items)
 //Вызывается для каждого элемента в списке
 Combobox.prototype.Render2 = function(content, items)
 {
+	debugger;
 	var setting = this.Setting;
 	for (var i = 0; i < items.length; i++)
 	{
@@ -196,6 +188,7 @@ Combobox.prototype.Render2 = function(content, items)
 //с использование указанного шаблона (setting.template)
 Combobox.prototype.Render3 = function(content, items)
 {
+	debugger;
 	var setting = this.Setting;
 	var template = document.getElementById(setting.template);
 	var reg = new RegExp("{.*?\}", "gm");

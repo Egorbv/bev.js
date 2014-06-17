@@ -1,18 +1,20 @@
 ﻿/*Основной класс для контейнера выпадающего списка*/
 /*Также изначально скрывает на странице элемент Select*/
-.combo-box {
+.combo-box{
 	width: 200px;
-	height: 30px;
 	border: 1px solid gray;
-	-webkit-border-radius: 5px;
+    -webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	position:relative;
-	overflow:hidden;
-    visibility : hidden;
+    box-sizing:border-box;
     display:inline-block;
+    position:relative;
+    font-family:Arial !important;
+    font-size:24pt;
+    padding:0px;
+    margin:0px;
+    
 }
-
 /*Класс для кнопки (слева или справа) с иконкой сомволизирующей открытие выпадающего списка*/
 .combo-box-button {
 	position: absolute;
@@ -47,7 +49,6 @@
 	background: url(icon3.png) -25px -4px;
 	background-repeat: no-repeat;
 	font-size:0px;
-	display:inline-block;
 	margin:0px;
 	padding:0px;
 }
@@ -60,7 +61,6 @@
 	background: url(icon3.png) -34px -4px;
 	background-repeat: no-repeat;
 	font-size: 0px;
-	display: inline-block;
 	margin: 0px;
 	padding: 0px;
 }
@@ -71,7 +71,5 @@
 	top:0px;
 	height:100%;
 	background-color: lightcyan;
-	display: table-cell;
-	vertical-align: middle;
 	text-align: center;
 }

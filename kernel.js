@@ -1,6 +1,6 @@
 ﻿function Bev()
 {
-    this.IsRTL = true;
+    this.IsRTL = false;
 
     this.DropDownContentMinHeight = 100;
     this.DropDownContentMaxHeight = 200;
@@ -35,13 +35,7 @@ Bev.prototype.OnLoadDocument = function()
 
 Bev.prototype.InitComboBox = function(id, setting)
 {
-	var combobox = document.getElementById(id);
-	if(combobox == null)
-	{
-		this.ShowError("Не найден комбобокс с указанным идентификатором");
-	}
-	setting.element = combobox;
-	return new Combobox(setting);
+	return new Combobox(id, setting);
 }
 
 
