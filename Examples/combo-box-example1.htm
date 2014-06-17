@@ -1,0 +1,40 @@
+﻿<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="../tree-view.css">
+	<link rel="stylesheet" href="../combo-box.css">
+	<link rel="stylesheet" href="../popup.css">
+	<script language="javascript" type="text/javascript" src="../kernel.js"></script>
+	<script language="javascript" type="text/javascript" src="../popup.js"></script>
+	<script language="javascript" type="text/javascript" src="../combo-box.js"></script>
+	</head>
+<body data-controller="ComboBoxExample1">
+    <select class="combo-box" id="StatusID" data-value-id="ID" data-value-text="Initialize">
+    </select>
+
+
+	<script>
+		function ComboBoxExample1()
+		{
+			var instance = this;
+
+			this.LoadStatuses = function(data)
+			{
+				var items = new Array();
+				items.push({ id: 1, name: "11111" });
+				items.push({ id: 2, name: "22222" });
+				items.push({ id: 3, name: "33333" });
+				items.push({ id: 4, name: "44444" });
+				items.push({ id: 5, name: "55555" });
+				items.push({ id: 6, name: "66666" });
+				data.callback(items);
+			}
+
+			this.InitializeComponent = function(bev)
+			{
+				bev.InitComboBox("StatusID", { onLoadData: instance.LoadStatuses, valueFieldName : "id", displayFieldName : "name" });
+			}
+		}
+	</script>
+</body>
+</html>

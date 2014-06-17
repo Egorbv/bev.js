@@ -4,51 +4,96 @@
 
     this.DropDownContentMinHeight = 100;
     this.DropDownContentMaxHeight = 200;
+
+    var instance = this;
+    document.onreadystatechange = function () { instance.OnLoadDocument(); };
 }
 
-Bev.prototype.AttachEvent = function(domElement, ev, handler)
+//Обработчик загрузки документа
+//Попытка инициализации контролера (если он указан в теге BODY) и вызов его метода инициализации компонентов
+Bev.prototype.OnLoadDocument = function()
 {
-	if (domElement.attachEvent)
+	if (document.readyState == "complete")
 	{
-		domElement.attachEvent("on" + ev, handler);
-	}
-	else
-	{
-		domElement.addEventListener(ev, handler);
+		var controllerName = document.body.getAttribute("data-controller");
+		if (controllerName != null && controllerName != "")
+		{
+			var controller = eval("new " + controllerName);
+			if (controller == null)
+			{
+				this.ShowError("Не удалось создать контроллер");
+			}
+
+			if (controller.InitializeComponent == null)
+			{
+				this.ShowError("У контроллера нет метода инициализации компонентов (InitializeComponent)");
+			}
+			controller.InitializeComponent(this);
+		}
 	}
 }
 
-Bev.prototype.DettachEvent = function (domElement, ev, handler)
+Bev.prototype.InitComboBox = function(id, setting)
 {
-	if (domElement.detachEvent)
+	var combobox = document.getElementById(id);
+	if(combobox == null)
 	{
-		domElement.detachEvent("on" + ev, handler);
+		this.ShowError("Не найден комбобокс с указанным идентификатором");
 	}
-	else
-	{
-		domElement.removeEventListener(ev, handler);
-	}
+	setting.element = combobox;
+	return new Combobox(setting);
 }
 
 
-Bev.prototype.GetTopCorner = function (element)
-{
-	var e = event;
-	var obj = element;
-	var top = 0;
-	var left = 0;
-	while (obj != document.body)
-	{
-		top += obj.offsetTop;
-		left += obj.offsetLeft;
-		obj = obj.parentNode;
-	}
-	return { x: left, y: top };
-}
 
-//Отображение сообщения об ошибке
-Bev.prototype.ShowError = function(str)
-{
-	alert(str);
-}
-var bev = new Bev();
+
+
+
+
+
+	Bev.prototype.AttachEvent = function(domElement, ev, handler)
+	{
+		if (domElement.attachEvent)
+		{
+			domElement.attachEvent("on" + ev, handler);
+		}
+		else
+		{
+			domElement.addEventListener(ev, handler);
+		}
+	}
+
+	Bev.prototype.DettachEvent = function (domElement, ev, handler)
+	{
+		if (domElement.detachEvent)
+		{
+			domElement.detachEvent("on" + ev, handler);
+		}
+		else
+		{
+			domElement.removeEventListener(ev, handler);
+		}
+	}
+
+
+	Bev.prototype.GetTopCorner = function (element)
+	{
+		var e = event;
+		var obj = element;
+		var top = 0;
+		var left = 0;
+		while (obj != document.body)
+		{
+			top += obj.offsetTop;
+			left += obj.offsetLeft;
+			obj = obj.parentNode;
+		}
+		return { x: left, y: top };
+	}
+
+	//Отображение сообщения об ошибке
+	Bev.prototype.ShowError = function(str)
+	{
+		alert(str);
+	}
+	var bev = new Bev();

@@ -1,5 +1,22 @@
 ﻿function Combobox(setting)
 {
+	//основные проверки на правильность настроек инициализации компонента
+	if (setting == null)
+	{
+		bev.ShowError("Combobox control - не переданы настройка выпадающего списка");
+		return;
+	}
+
+	if (setting.onLoadData != null || setting.items != null)
+	{
+		if(setting.valueFieldName == null || setting.displayFieldName == null)
+		{
+			bev.ShowError("Combobox control - должны быть указаны названия полей для значения и отображения в источнике данных")
+			return;
+		}
+	}
+
+
 	this.Setting = setting;
 	var cb = document.getElementsByClassName("combo-box")[0];
 	var container = document.createElement("div");
@@ -68,9 +85,10 @@ Combobox.prototype.BeginShowDropDown=function()
 	{
 		bev.ShowError("Combobox - не указаны данные или функция получения данных");
 	}
-	if(setting.OnLoadData)
+	if(setting.onLoadData)
 	{
-		setting.onLoadData({ control: this, callback: this.EndShowDropDown });
+		var instance = this;
+		setting.onLoadData({ control: this, callback: function(){ instance.EndShowDropDown();} });
 	}
 	else
 	{
