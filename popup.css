@@ -2,21 +2,12 @@
 .popup
 {
 	position:absolute;
-	background-color:lightgray;
 	overflow:auto;
-	border :1px solid red;
+	width:auto;
 }
 
-.combo-box-item
-{
-     cursor : default;
-}
 
 .combo-box-selected-item
 {
     background-color : blue;
-}
-.combo-box-item:hover
-{
-    background-color : lightblue;
 }

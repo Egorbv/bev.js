@@ -2,44 +2,39 @@
 /*Также изначально скрывает на странице элемент Select*/
 .combo-box{
 	width: 200px;
-	border: 1px solid gray;
-    -webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+	border: 1px solid #E3E3E5;
+    -webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
     box-sizing:border-box;
     display:inline-block;
     position:relative;
-    font-family:Arial !important;
-    font-size:24pt;
     padding:0px;
     margin:0px;
-    
+	background-color: #F4F4F5;
+	cursor:default;
+	height:30px;
 }
+
+/*Класс для кнопки (слева или справа) с иконкой при наведении на нее мыши сомволизирующей открытие выпадающего списка*/
+.combo-box:hover {
+	background-color: #C0C6D2;
+	background: linear-gradient(to top, #B6BDCA, #D2D4D8);
+	border-color : #B6BDCA;
+}
+
+
 /*Класс для кнопки (слева или справа) с иконкой сомволизирующей открытие выпадающего списка*/
 .combo-box-button {
 	position: absolute;
 	top: 0px;
 	height: 100%;
-	width: 30px;
-	background-color: lightgray;
-	border-right: 1px solid gray;
-    border-left:1px solid gray;
-	text-align:center;
-	vertical-align:middle;
-	display:table-cell;
+	width: 25px;
+	border-left: 1px solid;
+	border-right: 1px solid;
+	border-color:inherit;
 }
-/*Класс для кнопки (слева или справа) с иконкой при наведении на нее мыши сомволизирующей открытие выпадающего списка*/
-.combo-box-button:hover {
-	position: absolute;
-	top: 0px;
-	height: 100%;
-	width: 30px;
-	background-color: gray;
-	border-right: 1px solid gray;
-	text-align: center;
-	vertical-align: middle;
-	display: table-cell;
-}
+
 
 /*Класс для иконки в кнопке сомволизирующей открытие выпадающего списка*/
 .combo-box-button-icon {
@@ -52,6 +47,7 @@
 	margin:0px;
 	padding:0px;
 }
+
 
 /*Класс для иконки в кнопке при наведении на нее мыши сомволизирующей открытие выпадающего списка*/
 .combo-box-button-icon-hover {
@@ -70,6 +66,105 @@
 	position : absolute;
 	top:0px;
 	height:100%;
-	background-color: lightcyan;
+	background-color: white;
 	text-align: center;
+	text-overflow:ellipsis;
+	overflow:hidden;
+	font-size:14pt;
+}
+
+
+.combo-box-drop-down-content
+{
+	border:1px solid #E3E3E5;
+	border-bottom-right-radius : 4px;
+	border-bottom-left-radius : 4px;
+	background-color:#F4F4F5;
+	padding-left:1px;
+	padding-right:1px;
+	display:inline-block;
+	width:100%;
+	height:100%;
+}
+
+.combo-box-item
+{
+	border:1px solid transparent;
+     cursor : default;
+	 padding-top:5px;
+	 padding-bottom:5px;
+	 padding-left:2px;
+	 padding-right:2px;
+	 display:block;
+}
+
+
+.combo-box-item:hover
+{
+	border:1px solid #B6BDCA;
+    background-color : #469CD2;
+	border-radius : 3px;
+	background: linear-gradient(to top, #B6BDCA, #D2D4D8);
+}
+
+.combo-box-selected-item
+{
+	border:1px solid #469CD2;
+    background-color : lightblue;
+	border-radius : 3px;
+	background: linear-gradient(to top, #469CD2, #469CD2);
+}
+
+
+
+.combo-box-button-icon-loaded{
+	position:absolute;
+	font-size:0px;
+
+	animation-name:yoyo;
+	animation-duration:0.5s;
+	animation-iteration-count:infinite;
+
+	background-repeat: no-repeat;
+	background: url(icon3.png) -43px 0px;
+	width:12px;
+	height:12px;
+
+    -webkit-animation-duration:.5s;
+    -moz-animation-duration:.5s;
+
+    -webkit-animation-iteration-count:infinite;
+    -moz-animation-iteration-count:infinite;
+	
+
+    -webkit-animation-name: yoyo;
+    -moz-animation-name: yoyo;
+
+    -webkit-animation-timing-function:linear;
+    -moz-animation-timing-function:linear;
+}
+
+
+
+@keyframes yoyo
+{
+	from {transform: rotate(0deg);}
+	to {transform: rotate(360deg);}
+}
+
+@-o-keyframes yoyo
+{
+	from {-o-transform: rotate(0deg);}
+	to {-o-transform: rotate(360deg);}
+}
+
+@-webkit-keyframes yoyo { 
+    from {-webkit-transform:scale(1) rotate(0deg);}
+    to {-webkit-transform:scale(1) rotate(360deg);} 
+}
+
+
+@-moz-keyframes yoyo { 
+    from {-moz-transform:scale(1) rotate(0deg);}
+    to {-moz-transform:scale(1) rotate(360deg);} 
 }

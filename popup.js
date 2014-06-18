@@ -37,9 +37,11 @@ Popup.prototype.Show=function()
 		this.Panel.style.overflow = "auto";
 		this.Panel.onmousedown = function () { instance.PanelClick() };
 		this.Panel.appendChild(this.Setting.content);
+		document.body.appendChild(this.Panel);
 	}
+	this.Panel.style.visibility = "visible";
+
 	bev.AttachEvent(document, "mousedown", this._bodyClick);
-	document.body.appendChild(this.Panel);
 	this.Panel.style.width = width + "px";
 
 	//получаем координаты по умолчанию
@@ -92,7 +94,7 @@ Popup.prototype.Show=function()
 Popup.prototype.Hide = function ()
 {
 	bev.DettachEvent(document, "mousedown", this._bodyClick);
-	document.body.removeChild(this.Panel);
+	this.Panel.style.visibility = "hidden";
 }
 
 //Обработчик клика в сплывающей панели

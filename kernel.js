@@ -40,8 +40,22 @@ Bev.prototype.InitComboBox = function(id, setting)
 
 
 
+Bev.prototype.CenteringElement = function (node, innerNode)
+{
+	innerNode.style.visibility = "hidden";
+	innerNode.style.top = parseInt((node.clientHeight - innerNode.offsetHeight) / 2) + "px";
+	innerNode.style.left = parseInt((node.clientWidth - innerNode.offsetWidth) / 2) + "px";
+	innerNode.style.visibility = "visible";
+}
 
-
+Bev.prototype.GetParentDataContext = function(node)
+{
+	while(node.DataContext == null)
+	{
+		node = node.parentNode;
+	}
+	return node;
+}
 
 
 

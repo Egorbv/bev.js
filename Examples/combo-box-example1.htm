@@ -9,8 +9,12 @@
 	<script language="javascript" type="text/javascript" src="../combo-box.js"></script>
 	</head>
 <body data-controller="ComboBoxExample1">
+
+
+
     <select class="combo-box" id="StatusID" data-value-id="ID" data-value-text="Initialize">
-        <option>WWeeeee</option>
+		<option value="1">11111</option>
+		<option value="14">11111</option>
     </select>
     
     
@@ -29,6 +33,11 @@
             items.push({ id: 4, name: "44444" });
             items.push({ id: 5, name: "55555" });
             items.push({ id: 6, name: "66666" });
+            items.push({ id: 2, name: "22222" });
+            items.push({ id: 3, name: "33333уууууууууууууууууууууууууууууууууоооооооооооооооооооооооооооооооооооооооооооооооооооооооо" });
+            items.push({ id: 14, name: "44444" });
+            items.push({ id: 5, name: "55555" });
+            items.push({ id: 6, name: "66666" });
             data.callback(items);
         }
 
@@ -36,7 +45,8 @@
         {
             bev.InitComboBox("StatusID", {
                 onLoadData: instance.LoadStatuses, index: 1, dataValueField: "id", dataTextField: "name",
-                dataSourceFunction: instance.ComboboxDataSourceFunction
+                dataSourceFunction: instance.ComboboxDataSourceFunction,
+                showTitle : true
             });
         }
     }

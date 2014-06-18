@@ -1,4 +1,6 @@
-﻿function Combobox(id , setting)
+﻿//БИндить нужно либо на Textbox  - если нет готового списка
+//либо на Select - если список заполнен
+function Combobox(id, setting)
 {
 	//основные проверки на правильность настроек инициализации компонента
 	if (setting != null)
@@ -27,25 +29,34 @@
 		//create from select
 	}
 
+	//Идентификатор текущего выбранного значения
+	this.SelectedValue = null;
+	//Ссылка экземпляр выбранного элемента в списке
+	this.SelectedItem = null;
+	//Массив идентификаторов выбранных в списке
+	this.SelectedValues = null;
+	//Массив экземпляров выбранных элементов в списке
+	this.SelectedItems = null;
+
 	this.OriginalSelect = document.getElementById(id);
 	this.Setting = setting;
 	//Ссылка на элемент контейнер для выпадающего списка
 	this.Combobox = document.createElement("span");
 	this.Combobox.className = "combo-box";
 	this.Combobox.innerHTML = "&nbsp;";
+	this.Combobox.style.visibility = "hidden";
 
+	this.OriginalSelect.style.display = "none";
 	this.OriginalSelect.parentNode.insertBefore(this.Combobox, this.OriginalSelect);
-	//this.OriginalSelect.style.display = "none";
 
 	var button = document.createElement("span");
 	this.Content = document.createElement("span");
 	var icon = document.createElement("span");
 	icon.className = "combo-box-button-icon";
-	icon.innerHTML = "select";
 	button.appendChild(icon);
-	button.onmouseover = function () { icon.className = "combo-box-button-icon-hover" };
-	button.onmouseout = function () { icon.className = "combo-box-button-icon"; }
-	button.onclick = function () { instance.BeginShowDropDown(); };
+	this.Combobox.onmouseover = function () { icon.className = "combo-box-button-icon-hover" };
+	this.Combobox.onmouseout = function () { icon.className = "combo-box-button-icon"; }
+	this.Combobox.onclick = function () { instance.BeginShowDropDown(); };
 	button.className = "combo-box-button"
 
 	var instance = this;
@@ -59,8 +70,6 @@
 		button.style.left = "0px";
 		this.Content.style.right = "0px";
 		button.style.borderLeftWidth = "0px";
-		button.style.borderBottomLeftRadius = styles.borderBottomLeftRadius;
-		button.style.borderTopLeftRadius = styles.borderTopLeftRadius;
 		this.Content.style.borderBottomRightRadius = styles.borderBottomRightRadius;
 		this.Content.style.borderTopRightRadius = styles.borderTopRightRadius;
 	}
@@ -69,17 +78,16 @@
 		button.style.right = "0px";
 		button.style.borderRightWidth = "0px";
 		this.Content.style.left = "0px";
-		button.style.borderBottomRightRadius = styles.borderBottomRightRadius;
-		button.style.borderTopRightRadius = styles.borderTopRightRadius;
 		this.Content.style.borderBottomLeftRadius = styles.borderBottomLeftRadius;
 		this.Content.style.borderTopLeftRadius = styles.borderTopLeftRadius;
 	}
+
+
 	this.Combobox.appendChild(button);
-	icon.style.top = parseInt((button.clientHeight - icon.offsetHeight) / 2) + "px";
-	icon.style.left = parseInt((button.clientWidth - icon.offsetWidth) / 2) + "px";
+	bev.CenteringElement(button, icon);
 
 	this.Content.style.width = this.Combobox.clientWidth - button.offsetWidth + "px";
-	this.Content.innerHTML = "ddddW";
+	this.Content.innerHTML = "dddwwwwwwdW";
 	this.Combobox.appendChild(this.Content);
 
 	this._onClickContentHandler = function () { instance.OnClickContent(); };
@@ -92,6 +100,9 @@ Combobox.prototype.BeginShowDropDown=function()
 	if(setting.dataSourceFunction)
 	{
 		var instance = this;
+		var icon = this.Combobox.children[0].children[0];
+		icon.classList.toggle("combo-box-button-icon-loaded");
+		bev.CenteringElement(icon.parentNode, icon);
 		setting.dataSourceFunction({ control: this, callback: function (data) { instance.EndShowDropDown(data); } });
 	}
 	else
@@ -104,10 +115,21 @@ Combobox.prototype.BeginShowDropDown=function()
 //data - список элементов для отображения
 Combobox.prototype.EndShowDropDown = function(data)
 {
+	//если мы ожидали получение данных возвращаем прежний класс
+	var icon = this.Combobox.children[0].children[0];
+	if (icon.classList.contains("combo-box-button-icon-loaded"))
+	{
+		icon.classList.toggle("combo-box-button-icon-loaded");
+		bev.CenteringElement(icon.parentNode, icon);
+	}
+
+
+
 	var setting = this.Setting;
 	//Если всплывающая панель еще не создана - создаем ее
 	if (this.DropDownContent == null) {
 		var content = document.createElement("div");
+		content.className = "combo-box-drop-down-content";
 		if (bev.IsRTL == true)
 		{
 			content.style.direction = "rtl";
@@ -135,18 +157,40 @@ Combobox.prototype.EndShowDropDown = function(data)
 			content: content,
 		});
 	}
+	//Нужно определять что выделенный элемент не выделяется и скролировать до него
 	this.DropDownContent.Show();
 }
 
 //Обработчик клика по элементу списка
-Combobox.prototype.OnClickContent = function()
+Combobox.prototype.OnClickContent = function(ee)
 {
 	//Нужно зделать обработку мульти выбора
-	var e = event;
-	var item = e.currentTarget;
-	item.classList.add("combo-box-selected-item");
-	var item = item.DataContext;
+	var item = bev.GetParentDataContext(event.srcElement);
+	item.classList.toggle("combo-box-selected-item");
 	this.DropDownContent.Hide();
+
+	var selectedItem = item;
+	var selectedValue = item.DataContext[this.Setting.dataValueField];
+	if(this.Setting.allowMultiSelect == true)
+	{
+
+	}
+	else
+	{
+		if(this.SelectedItem != null)
+		{
+			this.SelectedItem.classList.toggle("combo-box-selected-item");
+		}
+		this.SelectedItem = selectedItem;
+		this.SelectedValue = selectedValue;
+		this.Content.innerText = selectedItem.DataContext[this.Setting.dataTextField];
+	}
+
+	if(this.Setting.showTitle == true)
+	{
+		this.Content.title = this.Content.innerText;
+	}
+	
 }
 
 //Создание списка элементов на основе коллекции элементов
@@ -158,7 +202,7 @@ Combobox.prototype.Render1 = function (content, items)
 	{
 		var item = document.createElement("div");
 		item.className = "combo-box-item";
-		item.innerHTML = "<div>" + items[i][setting.dataTextField] + "</div>";
+		item.innerHTML = "<div class='eeeeeee'><div>----" + items[i][setting.dataTextField] + "</div></div>";
 		item.onclick = this._onClickContentHandler;
 		item.DataContext = items[i];
 		content.appendChild(item);
