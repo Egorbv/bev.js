@@ -149,6 +149,7 @@ Combobox.prototype.EndShowDropDown = function(data)
 		{
 			this.Render1(content, data);
 		}
+		//bev.CalculateProperties(content);
 		this.DropDownContent = new Popup(
 		{
 			element: this.Combobox,
@@ -159,6 +160,33 @@ Combobox.prototype.EndShowDropDown = function(data)
 	}
 	//Нужно определять что выделенный элемент не выделяется и скролировать до него
 	this.DropDownContent.Show();
+	this.CreateMultiSelectMenu(content);
+}
+
+//Создание меню для множественного выбора (кнопки - выбрать, выбрать все, снять выделение, закрыть
+Combobox.prototype.CreateMultiSelectMenu=function(content)
+{
+	//передлать повторное открытие
+	var isTop = this.DropDownContent.VerticalType != "bottom";
+	content.parentNode.removeChild(content);
+	var newContent = bev.CreateElementWithAbsolutePosition("DIV", { top: "0px", left: "0px", width: "100%", height : "100%", overflow : "auto" });
+	var menu = bev.CreateElementWithAbsolutePosition("DIV", { left: "0px", height: "40px", width: "100%", backgroundColor: "red" });
+	this.DropDownContent.Panel.appendChild(newContent);
+	newContent.appendChild(content);
+	content = newContent;
+	this.DropDownContent.Panel.appendChild(menu);
+	//вомзожно зделать универсальную функцию растоновки элементо снизу-вверх или наооборот
+	if (isTop)
+	{
+		menu.style.bottom = "0px";
+		content.style.height = content.offsetHeight - menu.offsetHeight + "px";
+	}
+	else
+	{
+		menu.style.top = "0px";
+		content.style.top = menu.offsetHeight + "px";
+		content.style.height = content.offsetHeight - menu.offsetHeight + "px";
+	}
 }
 
 //Обработчик клика по элементу списка

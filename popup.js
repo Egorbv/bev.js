@@ -30,16 +30,16 @@ Popup.prototype.Show=function()
 		var instance = this;
 		this.Panel = document.createElement("div");
 		this.Panel.className = "popup";
-		this.Panel.style.width = width + "px";
 		this.Panel.style.minHeight = this.Setting.minHeight + "px";
 		this.Panel.style.maxHeight = this.Setting.maxHeight + "px";
-		this.Panel.visibility = "hidden";
-		this.Panel.style.overflow = "auto";
+
 		this.Panel.onmousedown = function () { instance.PanelClick() };
-		this.Panel.appendChild(this.Setting.content);
 		document.body.appendChild(this.Panel);
+		this.Panel.appendChild(this.Setting.content);
+		this.Panel.style.width = width + "px";
 	}
 	this.Panel.style.visibility = "visible";
+
 
 	bev.AttachEvent(document, "mousedown", this._bodyClick);
 	this.Panel.style.width = width + "px";

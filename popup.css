@@ -4,10 +4,6 @@
 	position:absolute;
 	overflow:auto;
 	width:auto;
+    visibility:hidden;
 }
 
-
-.combo-box-selected-item
-{
-    background-color : blue;
-}
