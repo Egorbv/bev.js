@@ -171,6 +171,15 @@ Combobox.prototype.CreateMultiSelectMenu=function(content)
 	content.parentNode.removeChild(content);
 	var newContent = bev.CreateElementWithAbsolutePosition("DIV", { top: "0px", left: "0px", width: "100%", height : "100%", overflow : "auto" });
 	var menu = bev.CreateElementWithAbsolutePosition("DIV", { left: "0px", height: "40px", width: "100%", backgroundColor: "red" });
+
+	var selectButton = document.createElement("span");
+	selectButton.className = "button-select";
+	var selectButtonIcon = document.createElement("span");
+	selectButtonIcon.className = "button-select-icon";
+	selectButtonIcon.innerHTML = "&nbsp;"
+	selectButton.appendChild(selectButtonIcon);
+	menu.appendChild(selectButton);
+
 	this.DropDownContent.Panel.appendChild(newContent);
 	newContent.appendChild(content);
 	content = newContent;

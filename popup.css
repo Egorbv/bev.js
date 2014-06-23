@@ -7,3 +7,22 @@
     visibility:hidden;
 }
 
+
+.button-select
+{
+	border : 1px solid transparent;
+}
+
+.button-select:hover
+{
+	border : 1px solid black;
+	background-color:gray;
+}
+
+.button-select-icon
+{
+	width:11px;
+	height:8px;
+	background: url(icon3.png) -50px -2px;
+}
+

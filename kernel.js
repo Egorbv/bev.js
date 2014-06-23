@@ -8,6 +8,14 @@
     var instance = this;
     document.onreadystatechange = function () { instance.OnLoadDocument(); };
 
+    this.Localization = {
+    	Buttons:
+			{
+				Select: "Выбрать",
+				Cancel : "Отмена"
+			}
+    };
+
 }
 
 //Обработчик загрузки документа
